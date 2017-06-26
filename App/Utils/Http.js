@@ -1,4 +1,7 @@
 
+const HOST = `http://192.168.1.3`;
+
+const PORT = `3009`;
 
 
 function isEmptyObject(obj) {
@@ -14,12 +17,8 @@ function codeParams(params) {
 
 }
 
-
 export default class Http {
 
-	static HOST = `http://192.168.1.3`;
-
-	static PORT = `3009`;
 
 	static request(uri, method = 'GET', params = {}) {
 
@@ -33,8 +32,7 @@ export default class Http {
 		if (!isEmptyObject(params))
 			config.body = codeParams(params);
 
-		console.log("`${Http.HOST}:${Http.PORT}/${uri}`", `${Http.HOST}:${Http.PORT}/${uri}`);
-		return fetch(`${Http.HOST}:${Http.PORT}/${uri}`, config)
+		return fetch(`${Http.HOST}:${PORT}/${uri}`, config)
 		.then(resp => {
 
 			return resp.json().then(json => {
