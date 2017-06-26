@@ -20,10 +20,10 @@ function codeParams(params) {
 
 }
 
-export default class Http {
+class Http {
 
 
-	static request(uri, method = 'GET', params = {}) {
+	request(uri, method = 'GET', params = {}) {
 
 		let config = {
 			method, headers
@@ -47,5 +47,7 @@ export default class Http {
 	}
 
 }
+
+export default new Http;
 
 
