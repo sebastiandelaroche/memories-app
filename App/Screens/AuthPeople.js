@@ -1,90 +1,57 @@
 'use strict';
 
 import React, { Component } from 'react';
-
 import {
   StyleSheet,
   View,
-  TextInput,
-  Button,
-  Image
+  Image,
+  Button
 } from 'react-native';
 
-
-import Http from '../Utils/Http';
+import {Google, GoogleDrive} from '../Utils/Google';
+import Storage from '../Utils/Storage';
 
 
 class AuthPeople extends React.Component {
-  
+
   static navigationOptions = {
   	header: null
   };
 
   constructor(props) {
     super(props);
-  
-    this.state = {
-    	user: '',
-    	names: '',
-    	lastName: '',
-    	birthday: null
-    };
-
-    this.onAuth = this.onAuth.bind(this);
+    this.storage = new Storage();
   }
 
-  onAuth() {
+  async _auth() {
 
-	const {navigation} = this.props;
-  	navigation.navigate('MyFamilies');
+    try {
 
-  	// const {user, names, lastName, birthday} = this.state;
+      const user = await Google.signIn();
+      this.storage.insert("@user", user);
 
-  	// Http.request('people', 'POST', { user, names, lastName, birthday })
-  	// .then(people => {
+      const drive = new GoogleDrive();
+      const files = await drive.getFiles();
+      console.log('files', files);
 
-  	// 	const {navigation} = this.props;
-  	// 	navigation.navigate('MyFamilies');
-
-  	// })
-  	// .catch(err => {
-  	// 	alert(err.message)
-  	// })
+    } catch (err) {
+      console.log('err', err);
+    }
 
   }
 
   render() {
 
     return (
-		<View>
-			<Image
-				source={require('../Resources/Images/logo.jpg')}
-			/>
-			<TextInput 
-				onChangeText={(user) => this.setState({ user })}
-				placeholder={ 'User Name' }
-				value={this.state.user}
-			/>
-			<TextInput 
-				onChangeText={(names) => this.setState({ names }) }
-				placeholder={ 'Names' }
-				value={this.state.names}
-			/>
-			<TextInput 
-				onChangeText={(lastName) => this.setState({ lastName }) }
-				placeholder={ 'Last Name' }
-				value={this.state.lastName}
-			/>
-			<TextInput 
-				onChangeText={(birthday) => this.setState({ birthday }) }
-				placeholder={ 'Birthday' }
-				value={this.state.birthday}
-			/>
-			<Button
-				onPress={this.onAuth}
-				title="Authenticate"
-			/>
-		</View>
+      <View>
+        <Image
+      		source={require('../Resources/Images/logo.jpg')}
+      	/>
+        <Button
+          onPress={this._auth.bind(this)}
+          title="auth"
+        />
+      </View>
     );
 
   }

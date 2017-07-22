@@ -14,14 +14,13 @@ import Google from '../Utils/Google';
 
 
 const Row = ({row}) => {
-
-	return <Text>{row.user}</Text>;
+	return <Text>{row.name}</Text>;
 }
 
-class MyFamilies extends Component {
+class MyFiles extends Component {
 
 	static navigationOptions = {
-		title: 'My Families',
+		title: 'My Files',
 		headerLeft: null
 	}
 
@@ -29,7 +28,7 @@ class MyFamilies extends Component {
 		super(props);
 
 		this.state = {
-			peoples: []
+			files: []
 		};
 
 		this.handlerPressRow = this.handlerPressRow.bind(this);
@@ -43,7 +42,8 @@ class MyFamilies extends Component {
       const drive = new Google.GoogleDrive();
       drive.token = navigation.state.params.user.accessToken;
       const files = await drive.getFiles();
-
+      console.log(files);
+      this.setState({files});
 
     } catch (err) {
       console.log('err', err);
@@ -56,12 +56,12 @@ class MyFamilies extends Component {
 
 	render() {
 
-		const {peoples} = this.state;
+		const {files} = this.state;
 
 		return (
 			<View>
 			<FlatList
-			  data={peoples}
+			  data={files}
 			  renderItem={({item}) => {
 			  	return (
 					<TouchableOpacity style={styles.row} onPress={this.handlerPressRow}>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default MyFamilies;
+export default MyFiles;

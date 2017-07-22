@@ -3,14 +3,15 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+import Index from './Screens/Index';
 import AuthPeople from './Screens/AuthPeople';
-import MyFamilies from './Screens/MyFamilies';
+import MyFiles from './Screens/MyFiles';
 
 
 const AppMemories = StackNavigator({
-  AuthPeople: { screen: AuthPeople },
-  MyFamilies: { screen: MyFamilies }
+	Index: { screen: Index },
+	AuthPeople: { screen: AuthPeople },
+	MyFiles: { screen: MyFiles }
 });
-
 
 AppRegistry.registerComponent('AppMemories', () => AppMemories);
